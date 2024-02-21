@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/scenario_provider.dart';
 import '../nav_bar.dart';
 
 class DecisionMatrix extends StatefulWidget {
@@ -15,6 +17,15 @@ class _DecisionMatrixState extends State<DecisionMatrix> {
     return Scaffold(
       appBar: AppBar(title: const Text('Decision Matrix'),),
       drawer: const NavBar(),
+      body: Center(
+        child: Text(
+          context.watch<ScenarioProvider>().userName,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
+      ),
     );
   }
 }
