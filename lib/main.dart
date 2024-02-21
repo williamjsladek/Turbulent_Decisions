@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
+import 'roulette.dart';
+import 'dice.dart';
+import 'decision_matrix.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -8,10 +12,19 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  static const appTitle = 'Turbulent Decisions';
+
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Home(),
+    return MaterialApp(
+      title: appTitle,
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const Home(title: appTitle),
+        '/roulette': (context) => const Roulette(),
+        '/dice': (context) => const Dice(),
+        '/decision_matrix': (context) => const DecisionMatrix(),
+      },
     );
   }
 }
