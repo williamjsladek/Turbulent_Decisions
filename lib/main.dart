@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'home.dart';
-import 'roulette.dart';
-import 'dice.dart';
-import 'decision_matrix.dart';
+import 'package:provider/provider.dart';
+import 'pages/home.dart';
+import 'pages/roulette.dart';
+import 'pages/dice.dart';
+import 'pages/decision_matrix.dart';
 
 
 void main() {

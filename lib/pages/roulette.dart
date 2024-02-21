@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'nav_bar.dart';
+import '../nav_bar.dart';
 
 class Roulette extends StatefulWidget {
   const Roulette({super.key});
