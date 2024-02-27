@@ -13,7 +13,7 @@ class Home extends StatelessWidget {
         child: ElevatedButton(onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const Dice()),
+            MaterialPageRoute(builder: (context) => Dice()),
           );
         }, child: const Text("Roll Dice"))
       )
