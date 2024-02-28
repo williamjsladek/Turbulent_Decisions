@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:dice_icons/dice_icons.dart';
+import 'dart:developer';
 
 const List<String> list = <String>["d4", "d6", "d8", "d10", "d12", "d20"];
 
@@ -12,6 +14,7 @@ class Dice extends StatefulWidget {
 
 class _Dice extends State<Dice> {
   int diceCount = 1;
+  List<Widget> diceRollList = List.generate(1, (int i) => const DiceRoll());
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +31,22 @@ class _Dice extends State<Dice> {
              shrinkWrap: true,
              children: diceRollList,
            ),
-           ElevatedButton(onPressed: addDiceField, child: const Icon(Icons.add)),
+           Row(
+             mainAxisAlignment: MainAxisAlignment.center,
+             children: <Widget>[
+               ElevatedButton(onPressed: removeDiceField, child: const Icon(Icons.remove)),
+               ElevatedButton(onPressed: addDiceField, child: const Icon(Icons.add)),
+             ],
+           )
+
          ], 
         ),
 
-      )
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: roll,
+        child: const Icon(DiceIcons.dice1),
+      ),
     );
   }
 
@@ -41,6 +55,18 @@ class _Dice extends State<Dice> {
       diceCount += 1;
     });
   }
+
+  void removeDiceField() {
+    setState(() {
+      if (diceCount > 1) {
+        diceCount -= 1;
+      }
+    });
+  }
+
+  void roll() {
+    log("values: ${diceRollList[0]}");
+  }
 }
 
 class DiceRoll extends StatefulWidget {
@@ -48,6 +74,11 @@ class DiceRoll extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _DiceRoll();
+
+  int getRoll() {
+
+    return 1;
+  }
 }
 
 class _DiceRoll extends State<DiceRoll> {
