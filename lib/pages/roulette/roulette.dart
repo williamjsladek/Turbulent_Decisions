@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:dice_icons/dice_icons.dart';
 import 'dart:developer';
 
-import 'nav_bar.dart';
+import '../../flutter_flow/nav/nav_bar.dart';
 
 class Roulette extends StatefulWidget {
   const Roulette({super.key});

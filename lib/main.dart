@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'home.dart';
-import 'roulette.dart';
-import 'dice.dart';
+import 'pages/home/home.dart';
+import 'pages/roulette/roulette.dart';
+import 'pages/dice/dice.dart';
 
 void main() {
   runApp(const MyApp());

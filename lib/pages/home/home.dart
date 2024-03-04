@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'nav_bar.dart';
+import '../../flutter_flow/nav/nav_bar.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.title});

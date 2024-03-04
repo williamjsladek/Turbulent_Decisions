@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dice_icons/dice_icons.dart';
 import 'dart:developer';
-import 'nav_bar.dart';
+import '../../flutter_flow/nav/nav_bar.dart';
 
 const List<String> list = <String>["d4", "d6", "d8", "d10", "d12", "d20"];
 
