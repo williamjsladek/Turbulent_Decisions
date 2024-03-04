@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
+import 'roulette.dart';
+import 'dice.dart';
 
 void main() {
   runApp(const MyApp());
