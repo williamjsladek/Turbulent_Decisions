@@ -60,35 +60,47 @@ class _RouletteState extends State<Roulette> {
                   itemCount: _options.length,
                   itemBuilder: (context, index) {
                     // *Roulette Tile*
-                    return Slidable(
-                      // Delete Option
-                      endActionPane: ActionPane(
-                        motion: StretchMotion(),
-                        children: [
-                          SlidableAction(
-                            onPressed: ((context) {
-                              removeOption(_options[index]);
-                            }),
-                            backgroundColor: Colors.red,
-                            icon: Icons.delete,
-                          ),
-                        ],
-                      ),
-                      // Option Text
-                      child: Container(
+                    return Container(
+                      decoration: BoxDecoration(
                         color: Colors.indigo,
-                        padding: const EdgeInsets.all(30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      margin: EdgeInsets.all(5.0),
+                      child: Slidable(
+                        // Delete Option
+                        endActionPane: ActionPane(
+                          extentRatio: 0.25,
+                          motion: BehindMotion(),
                           children: [
-                            Text(
-                              _options[index],
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
+                            SlidableAction(
+                              onPressed: ((context) {
+                                removeOption(_options[index]);
+                              }),
+                              backgroundColor: Colors.red,
+                              icon: Icons.delete,
+                              borderRadius: const BorderRadius.only(
+                                  topRight: Radius.circular(10),
+                                  bottomRight: Radius.circular(10)),
                             ),
                           ],
+                        ),
+                        // Option Text
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                _options[index],
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
