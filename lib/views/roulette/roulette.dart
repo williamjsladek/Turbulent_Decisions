@@ -111,7 +111,7 @@ class _RouletteState extends State<Roulette> {
                 onPressed: () async {
                   final option = await openDialog();
                   if (option == null || option.isEmpty) return;
-
+                  controller.clear();
                   addOption(option);
                 },
                 child: const Icon(Icons.add)),
@@ -168,7 +168,6 @@ class _RouletteState extends State<Roulette> {
       );
 
   void submit() {
-    controller.clear();
     Navigator.of(context).pop(controller.text);
   }
 
