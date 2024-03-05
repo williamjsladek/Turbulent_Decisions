@@ -8,7 +8,7 @@ class RouletteInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.deepPurple,
-      content: Container(
+      content: SizedBox(
         height: 120,
         child: Column(children: [
           const TextField(

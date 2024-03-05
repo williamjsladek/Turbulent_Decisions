@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
+import 'package:turb_desc/components/dialog_boxes/roulette_alert.dart';
 import 'package:turb_desc/views/roulette/roulette_tile.dart';
 import 'dart:developer';
 
@@ -56,6 +57,7 @@ class _RouletteState extends State<Roulette> {
             child: ListView.builder(
                 itemCount: _options.length,
                 itemBuilder: (context, index) {
+                  // *Roulette Tile*
                   return Slidable(
                     endActionPane: ActionPane(
                       motion: StretchMotion(),
@@ -70,15 +72,26 @@ class _RouletteState extends State<Roulette> {
                         ),
                       ],
                     ),
-                    child: Container(
-                      padding: const EdgeInsets.all(20),
-                      child: Row(
-                        children: [
-                          Text(_options[index]),
-                        ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        color: Colors.indigo,
+                        padding: const EdgeInsets.all(30),
+                        child: Row(
+                          children: [
+                            Text(
+                              _options[index],
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
+                  // *End Roulette Tile*
                 }),
           ),
           ElevatedButton(
@@ -148,17 +161,8 @@ class _RouletteState extends State<Roulette> {
     int randomIndex = Random().nextInt(_options.length);
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        content: Text(_options[randomIndex]),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.done),
-          ),
-        ],
-      ),
+      builder: (context) =>
+          RouletteAlert(alert: 'Selected:', text: _options[randomIndex]),
     );
   }
 }
