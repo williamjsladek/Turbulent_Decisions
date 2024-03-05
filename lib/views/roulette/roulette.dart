@@ -50,34 +50,36 @@ class _RouletteState extends State<Roulette> {
         onPressed: spin,
         child: const Icon(autoMode),
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 400,
-            child: ListView.builder(
-                itemCount: _options.length,
-                itemBuilder: (context, index) {
-                  // *Roulette Tile*
-                  return Slidable(
-                    endActionPane: ActionPane(
-                      motion: StretchMotion(),
-                      children: [
-                        SlidableAction(
-                          onPressed: ((context) {
-                            // delete tile
-                            removeOption(_options[index]);
-                          }),
-                          backgroundColor: Colors.red,
-                          icon: Icons.delete,
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 400,
+              child: ListView.builder(
+                  itemCount: _options.length,
+                  itemBuilder: (context, index) {
+                    // *Roulette Tile*
+                    return Slidable(
+                      // Delete Option
+                      endActionPane: ActionPane(
+                        motion: StretchMotion(),
+                        children: [
+                          SlidableAction(
+                            onPressed: ((context) {
+                              removeOption(_options[index]);
+                            }),
+                            backgroundColor: Colors.red,
+                            icon: Icons.delete,
+                          ),
+                        ],
+                      ),
+                      // Option Text
                       child: Container(
                         color: Colors.indigo,
                         padding: const EdgeInsets.all(30),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               _options[index],
@@ -89,20 +91,20 @@ class _RouletteState extends State<Roulette> {
                           ],
                         ),
                       ),
-                    ),
-                  );
-                  // *End Roulette Tile*
-                }),
-          ),
-          ElevatedButton(
-              onPressed: () async {
-                final option = await openDialog();
-                if (option == null || option.isEmpty) return;
+                    );
+                    // *End Roulette Tile*
+                  }),
+            ),
+            ElevatedButton(
+                onPressed: () async {
+                  final option = await openDialog();
+                  if (option == null || option.isEmpty) return;
 
-                addOption(option);
-              },
-              child: const Icon(Icons.add)),
-        ],
+                  addOption(option);
+                },
+                child: const Icon(Icons.add)),
+          ],
+        ),
       ),
     );
   }
