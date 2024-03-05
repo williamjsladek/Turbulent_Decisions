@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:turb_desc/components/buttons/my_button.dart';
+import 'package:turb_desc/views/roulette/roulette.dart';
 
 class RouletteInput extends StatelessWidget {
   const RouletteInput({super.key});
@@ -7,22 +8,18 @@ class RouletteInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Colors.deepPurple,
-      content: SizedBox(
-        height: 120,
-        child: Column(children: [
-          const TextField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Add new option",
-            ),
-          ),
-          Row(children: [
-            MyButton(text: "Save", onPressed: () {}),
-            MyButton(text: "Cancel", onPressed: () {})
-          ],)
-        ],),
+      title: const Text('Roulette Option'),
+      content: TextField(
+        autofocus: true,
+        decoration: const InputDecoration(hintText: 'Enter Option'),
+        controller: controller,
       ),
+      actions: [
+        TextButton(
+          onPressed: submit,
+          child: const Text('SUBMIT'),
+        ),
+      ],
     );
   }
 }

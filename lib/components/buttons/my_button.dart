@@ -11,7 +11,17 @@ class MyButton extends StatelessWidget {
     return MaterialButton(
       onPressed: onPressed,
       color: Theme.of(context).primaryColor,
-      child: Text(text),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }

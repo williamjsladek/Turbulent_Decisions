@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -50,7 +49,8 @@ class _RouletteState extends State<Roulette> {
         onPressed: spin,
         child: const Icon(autoMode),
       ),
-      body: Padding(
+      body: Container(
+        color: Colors.deepPurple[300],
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
@@ -61,7 +61,7 @@ class _RouletteState extends State<Roulette> {
                     // *Roulette Tile*
                     return Container(
                       decoration: BoxDecoration(
-                        color: Colors.indigo,
+                        color: Colors.deepPurple,
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       margin: const EdgeInsets.all(5.0),
@@ -134,28 +134,29 @@ class _RouletteState extends State<Roulette> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        content: const Text("Added Option"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.done),
-          )
-        ],
-      ),
+      builder: (context) =>
+          const RouletteAlert(alert: 'Option Added!', text: ''),
     );
   }
 
   Future<String?> openDialog() => showDialog<String>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Roulette Option'),
+          backgroundColor: Colors.deepPurple[300],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          title: const Text(
+            'Roulette Option',
+            style: TextStyle(color: Colors.white),
+          ),
           content: TextField(
             autofocus: true,
-            decoration: const InputDecoration(hintText: 'Enter Option'),
+            decoration: const InputDecoration(
+                hintText: 'Enter Option',
+                hintStyle: TextStyle(color: Colors.white)),
             controller: controller,
+            style: const TextStyle(color: Colors.white),
           ),
           actions: [
             TextButton(
@@ -167,6 +168,7 @@ class _RouletteState extends State<Roulette> {
       );
 
   void submit() {
+    controller.clear();
     Navigator.of(context).pop(controller.text);
   }
 
@@ -175,6 +177,7 @@ class _RouletteState extends State<Roulette> {
     int randomIndex = Random().nextInt(_options.length);
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) =>
           RouletteAlert(alert: 'Selected:', text: _options[randomIndex]),
     );

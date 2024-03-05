@@ -10,16 +10,36 @@ class RouletteAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Colors.deepPurple,
+      backgroundColor: Colors.deepPurple[300],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
+      ),
       content: SizedBox(
         height: 120,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(alert),
-            Text(text),
-            MyButton(text: "Acknowledge", onPressed: () {
-              Navigator.pop(context);
-            }),
+            Text(
+              alert,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              text,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            MyButton(
+                text: "Acknowledge",
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
           ],
         ),
       ),
