@@ -19,7 +19,7 @@ class Roulette extends StatefulWidget {
 
 class _RouletteState extends State<Roulette> {
   late TextEditingController controller;
-  List<String> _options = [];
+  final List<String> _options = [];
 
   static const IconData autoMode =
       IconData(0xf0787, fontFamily: 'MaterialIcons');
@@ -54,8 +54,7 @@ class _RouletteState extends State<Roulette> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            SizedBox(
-              height: 400,
+            Expanded(
               child: ListView.builder(
                   itemCount: _options.length,
                   itemBuilder: (context, index) {
@@ -63,14 +62,14 @@ class _RouletteState extends State<Roulette> {
                     return Container(
                       decoration: BoxDecoration(
                         color: Colors.indigo,
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(12.0),
                       ),
-                      margin: EdgeInsets.all(5.0),
+                      margin: const EdgeInsets.all(5.0),
                       child: Slidable(
                         // Delete Option
                         endActionPane: ActionPane(
                           extentRatio: 0.25,
-                          motion: BehindMotion(),
+                          motion: const BehindMotion(),
                           children: [
                             SlidableAction(
                               onPressed: ((context) {
@@ -79,8 +78,9 @@ class _RouletteState extends State<Roulette> {
                               backgroundColor: Colors.red,
                               icon: Icons.delete,
                               borderRadius: const BorderRadius.only(
-                                  topRight: Radius.circular(10),
-                                  bottomRight: Radius.circular(10)),
+                                topRight: Radius.circular(12),
+                                bottomRight: Radius.circular(12),
+                              ),
                             ),
                           ],
                         ),
