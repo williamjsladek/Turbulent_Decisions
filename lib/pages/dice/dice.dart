@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dice_icons/dice_icons.dart';
 import 'dart:developer';
+import '../../flutter_flow/nav/nav_bar.dart';
 
 const List<String> list = <String>["d4", "d6", "d8", "d10", "d12", "d20"];
 
@@ -9,10 +10,10 @@ class Dice extends StatefulWidget {
   const Dice({super.key});
 
   @override
-  _Dice createState() => _Dice();
+  State<Dice> createState() => _DiceState();
 }
 
-class _Dice extends State<Dice> {
+class _DiceState extends State<Dice> {
   int diceCount = 1;
   List<Widget> diceRollList = List.generate(1, (int i) => const DiceRoll());
 
@@ -20,8 +21,8 @@ class _Dice extends State<Dice> {
   Widget build(BuildContext context) {
     List<Widget> diceRollList = List.generate(diceCount, (int i) => const DiceRoll());
     return Scaffold(
-      appBar: AppBar(title: const Text("Rolling Dice")),
-
+      appBar: AppBar(title: const Text("Dice")),
+      drawer: const NavBar(),
       body:  Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
