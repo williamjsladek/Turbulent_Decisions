@@ -5,6 +5,7 @@ import 'dart:developer';
 import '../../flutter_flow/nav/nav_bar.dart';
 
 const List<String> list = <String>["d4", "d6", "d8", "d10", "d12", "d20"];
+List<DiceRoll> diceRollList = List.generate(1, (int i) => DiceRoll());
 
 class Dice extends StatefulWidget {
   const Dice({super.key});
@@ -14,12 +15,10 @@ class Dice extends StatefulWidget {
 }
 
 class _DiceState extends State<Dice> {
-  int diceCount = 1;
-  List<Widget> diceRollList = List.generate(1, (int i) => const DiceRoll());
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> diceRollList = List.generate(diceCount, (int i) => const DiceRoll());
+
     return Scaffold(
       appBar: AppBar(title: const Text("Dice")),
       drawer: const NavBar(),
@@ -27,10 +26,11 @@ class _DiceState extends State<Dice> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
          children: <Widget>[
-           ListView(
+           ListView.builder(
              scrollDirection: Axis.vertical,
              shrinkWrap: true,
-             children: diceRollList,
+             itemCount: diceRollList.length,
+             itemBuilder: (_, index) => diceRollList[index],
            ),
            Row(
              mainAxisAlignment: MainAxisAlignment.center,
@@ -52,107 +52,84 @@ class _DiceState extends State<Dice> {
   }
 
   void addDiceField() {
-    setState(() {
-      diceCount += 1;
-    });
+    setState(() {});
+    diceRollList.add(DiceRoll());
   }
 
   void removeDiceField() {
-    setState(() {
-      if (diceCount > 1) {
-        diceCount -= 1;
-      }
-    });
+    setState(() {});
+    if (diceRollList.length > 1) {
+      diceRollList.removeLast();
+    }
   }
 
   void roll() {
-    log("values: ${diceRollList[0]}");
+    for (int i = 0; i < diceRollList.length; i++) {
+      log("values: ${diceRollList[i].getNum()}, ${diceRollList[i].getType()}");
+    }
   }
 }
 
 class DiceRoll extends StatefulWidget {
-  const DiceRoll ({super.key});
+  DiceRoll ({super.key});
+  final _DiceRoll _diceRollState = _DiceRoll();
 
   @override
-  State<StatefulWidget> createState() => _DiceRoll();
+  State<StatefulWidget> createState() => _diceRollState;
 
-  int getRoll() {
+  String getNum() {
+    return _diceRollState.numberOfDice;
+  }
 
-    return 1;
+  String getType() {
+    return _diceRollState.dropDownValue;
   }
 }
 
 class _DiceRoll extends State<DiceRoll> {
+  String dropDownValue = list.first;
+  String numberOfDice = "";
+
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text("Num: "),
+        const Text("Num: "),
         SizedBox(
           width: 30,
-          child: NumDiceForm(),
+          child: Form(
+            child: TextFormField(
+              textAlign: TextAlign.center,
+              maxLength: 2,
+              onChanged: (String? value) {
+                setState(() {
+                  numberOfDice = value!;
+                });
+              },
+              decoration: const InputDecoration(
+                  counterText: ''
+              ),
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
+            ),
+          ),
         ),
-        Text(" Type: "),
-        DropDownDice()
+        const Text(" Type: "),
+        DropdownMenu<String>(
+          initialSelection: list.first,
+          onSelected: (String? value) {
+            setState(() {
+              dropDownValue = value!;
+            });
+          },
+          dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
+            return DropdownMenuEntry(value: value, label: value);
+          }).toList(),
+        )
       ],
-    );
-  }
-}
-
-class NumDiceForm extends StatefulWidget {
-  const NumDiceForm ({super.key});
-
-  @override
-  NumDiceFormState createState() {
-    return NumDiceFormState();
-  }
-}
-
-class NumDiceFormState extends State<NumDiceForm> {
-  final _formkey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: _formkey,
-      child: TextField(
-        textAlign: TextAlign.center,
-        maxLength: 2,
-        decoration: const InputDecoration(
-          counterText: ''
-        ),
-        keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly
-        ],
-      ),
-    );
-  }
-}
-
-class DropDownDice extends StatefulWidget {
-  const DropDownDice({super.key});
-
-  @override
-  State<DropDownDice> createState() => DropDownDiceState();
-}
-
-class DropDownDiceState extends State<DropDownDice> {
-  String dropDownValue = list.first;
-
-  @override
-  Widget build (BuildContext context) {
-    return DropdownMenu<String>(
-      initialSelection: list.first,
-      onSelected: (String? value) {
-        setState(() {
-          dropDownValue = value!;
-        });
-      },
-      dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
-        return DropdownMenuEntry(value: value, label: value);
-      }).toList(),
     );
   }
 }
