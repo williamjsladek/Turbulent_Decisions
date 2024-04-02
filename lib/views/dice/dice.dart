@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dice_icons/dice_icons.dart';
 import 'dart:developer';
+import '../../components/nav/nav_bar.dart';
 
 const List<String> list = <String>["d4", "d6", "d8", "d10", "d12", "d20"];
 
@@ -18,29 +19,32 @@ class _DiceState extends State<Dice> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> diceRollList = List.generate(diceCount, (int i) => const DiceRoll());
+    List<Widget> diceRollList =
+        List.generate(diceCount, (int i) => const DiceRoll());
     return Scaffold(
       appBar: AppBar(title: const Text("Dice")),
-      body:  Center(
+      drawer: const NavBar(),
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-         children: <Widget>[
-           ListView(
-             scrollDirection: Axis.vertical,
-             shrinkWrap: true,
-             children: diceRollList,
-           ),
-           Row(
-             mainAxisAlignment: MainAxisAlignment.center,
-             children: <Widget>[
-               ElevatedButton(onPressed: removeDiceField, child: const Icon(Icons.remove)),
-               ElevatedButton(onPressed: addDiceField, child: const Icon(Icons.add)),
-             ],
-           )
-
-         ], 
+          children: <Widget>[
+            ListView(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              children: diceRollList,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ElevatedButton(
+                    onPressed: removeDiceField,
+                    child: const Icon(Icons.remove)),
+                ElevatedButton(
+                    onPressed: addDiceField, child: const Icon(Icons.add)),
+              ],
+            )
+          ],
         ),
-
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: roll,
@@ -69,13 +73,12 @@ class _DiceState extends State<Dice> {
 }
 
 class DiceRoll extends StatefulWidget {
-  const DiceRoll ({super.key});
+  const DiceRoll({super.key});
 
   @override
   State<StatefulWidget> createState() => _DiceRoll();
 
   int getRoll() {
-
     return 1;
   }
 }
@@ -99,7 +102,7 @@ class _DiceRoll extends State<DiceRoll> {
 }
 
 class NumDiceForm extends StatefulWidget {
-  const NumDiceForm ({super.key});
+  const NumDiceForm({super.key});
 
   @override
   NumDiceFormState createState() {
@@ -117,9 +120,7 @@ class NumDiceFormState extends State<NumDiceForm> {
       child: TextField(
         textAlign: TextAlign.center,
         maxLength: 2,
-        decoration: const InputDecoration(
-          counterText: ''
-        ),
+        decoration: const InputDecoration(counterText: ''),
         keyboardType: TextInputType.number,
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.digitsOnly
@@ -140,7 +141,7 @@ class DropDownDiceState extends State<DropDownDice> {
   String dropDownValue = list.first;
 
   @override
-  Widget build (BuildContext context) {
+  Widget build(BuildContext context) {
     return DropdownMenu<String>(
       initialSelection: list.first,
       onSelected: (String? value) {
