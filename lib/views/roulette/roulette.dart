@@ -1,12 +1,14 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:provider/provider.dart';
-import 'package:turb_desc/components/dialog_boxes/roulette_alert.dart';
-import 'package:turb_desc/views/roulette/roulette_tile.dart';
-import 'dart:developer';
 
+import 'package:turb_desc/components/dialog_boxes/roulette_alert.dart';
+
+import 'package:turb_desc/services/firestore.dart';
+
+import '../../backend/apis/roulette_profiles.dart';
 import '../../components/nav/nav_bar.dart';
 
 class Roulette extends StatefulWidget {
@@ -17,8 +19,13 @@ class Roulette extends StatefulWidget {
 }
 
 class _RouletteState extends State<Roulette> {
+  // firestore
+  final FirestoreService firestoreService = FirestoreService();
+
+  // text controller
   late TextEditingController controller;
-  final List<String> _options = [];
+  late List<String> _options = [];
+  late String _title = '';
 
   static const IconData autoMode =
       IconData(0xf0787, fontFamily: 'MaterialIcons');
@@ -26,14 +33,12 @@ class _RouletteState extends State<Roulette> {
   @override
   void initState() {
     super.initState();
-
     controller = TextEditingController();
   }
 
   @override
   void dispose() {
     controller.dispose();
-
     super.dispose();
   }
 
@@ -107,14 +112,33 @@ class _RouletteState extends State<Roulette> {
                     // *End Roulette Tile*
                   }),
             ),
-            ElevatedButton(
-                onPressed: () async {
-                  final option = await openDialog();
-                  if (option == null || option.isEmpty) return;
-                  controller.clear();
-                  addOption(option);
-                },
-                child: const Icon(Icons.add)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    final option = await optionInput();
+                    if (option == null || option.isEmpty) return;
+                    controller.clear();
+                    addOption(option);
+                  },
+                  child: const Icon(Icons.add),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    _title = (await titleInput())!;
+                    if (_title.isEmpty) return;
+                    controller.clear();
+                    saveProfile();
+                  },
+                  child: const Icon(Icons.save),
+                ),
+                ElevatedButton(
+                  onPressed: () => dialoger(context),
+                  child: const Text('LOAD'),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -139,7 +163,7 @@ class _RouletteState extends State<Roulette> {
     );
   }
 
-  Future<String?> openDialog() => showDialog<String>(
+  Future<String?> optionInput() => showDialog<String>(
         context: context,
         builder: (context) => AlertDialog(
           backgroundColor: Colors.deepPurple[300],
@@ -181,4 +205,86 @@ class _RouletteState extends State<Roulette> {
           RouletteAlert(alert: 'Selected:', text: _options[randomIndex]),
     );
   }
+
+  Future<String?> titleInput() => showDialog<String>(
+        context: context,
+        builder: (context) => AlertDialog(
+          backgroundColor: Colors.deepPurple[300],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          title: const Text(
+            'Profile Title',
+            style: TextStyle(color: Colors.white),
+          ),
+          content: TextField(
+            autofocus: true,
+            decoration: const InputDecoration(
+                hintText: 'Enter Title',
+                hintStyle: TextStyle(color: Colors.white)),
+            controller: controller,
+            style: const TextStyle(color: Colors.white),
+          ),
+          actions: [
+            TextButton(
+              onPressed: submit,
+              child: const Text('SUBMIT'),
+            ),
+          ],
+        ),
+      );
+
+  void saveProfile() {
+    // Save new profile
+    firestoreService.addProfile(_title, _options);
+  }
+
+  dynamic dialoger(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text('List View'),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: StreamBuilder<QuerySnapshot>(
+              stream: firestoreService.getProfileStream(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List profilesList = snapshot.data!.docs;
+                  return ListView.builder(
+                    itemCount: profilesList.length,
+                    itemBuilder: (_, index) {
+                      // get each individual doc
+                      DocumentSnapshot document = profilesList[index];
+                      String docID = document.id;
+                      // get profile from each doc
+                      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                      String profileName = data['name'];
+                      List<String> optionsList = List.from(data['options']);
+
+                      // display as list tile
+                      return ListTile(
+                        title: Text(profileName),
+                        onTap: () {
+                          setState(() {
+                            _options.clear();
+                            optionsList.forEach((element) {
+                              _options.add(element);
+                            });
+                          });
+                        },
+                      );
+                    },
+                  );
+                }
+                throw '';
+              }
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 }
