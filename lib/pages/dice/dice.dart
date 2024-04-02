@@ -22,27 +22,28 @@ class _DiceState extends State<Dice> {
     return Scaffold(
       appBar: AppBar(title: const Text("Dice")),
       drawer: const NavBar(),
-      body:  Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-         children: <Widget>[
-           ListView.builder(
-             scrollDirection: Axis.vertical,
-             shrinkWrap: true,
-             itemCount: diceRollList.length,
-             itemBuilder: (_, index) => diceRollList[index],
-           ),
-           Row(
-             mainAxisAlignment: MainAxisAlignment.center,
-             children: <Widget>[
-               ElevatedButton(onPressed: removeDiceField, child: const Icon(Icons.remove)),
-               ElevatedButton(onPressed: addDiceField, child: const Icon(Icons.add)),
-             ],
-           )
-
-         ], 
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: diceRollList.length,
+                itemBuilder: (_, index) => diceRollList[index],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ElevatedButton(onPressed: removeDiceField, child: const Icon(Icons.remove)),
+                  ElevatedButton(onPressed: addDiceField, child: const Icon(Icons.add)),
+                ],
+              )
+            ],
+          ),
         ),
-
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: roll,
@@ -65,7 +66,7 @@ class _DiceState extends State<Dice> {
 
   void roll() {
     for (int i = 0; i < diceRollList.length; i++) {
-      log("values: ${diceRollList[i].getNum()}, ${diceRollList[i].getType()}");
+      log("rolling: ${diceRollList[i].getNum()} ${diceRollList[i].getType()}");
     }
   }
 }
@@ -108,7 +109,7 @@ class _DiceRoll extends State<DiceRoll> {
                 });
               },
               decoration: const InputDecoration(
-                  counterText: ''
+                counterText: ''
               ),
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
