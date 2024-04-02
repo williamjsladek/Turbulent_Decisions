@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'pages/home/home.dart';
-import 'pages/roulette/roulette.dart';
-import 'pages/dice/dice.dart';
+import 'views/home/home.dart';
+import 'views/roulette/roulette.dart';
+import 'views/dice/dice.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: appTitle,
+      debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
         '/': (context) => const Home(title: appTitle),
