@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dice_icons/dice_icons.dart';
 import 'dart:developer';
-import '../../flutter_flow/nav/nav_bar.dart';
 
 const List<String> list = <String>["d4", "d6", "d8", "d10", "d12", "d20"];
 
@@ -22,7 +21,6 @@ class _DiceState extends State<Dice> {
     List<Widget> diceRollList = List.generate(diceCount, (int i) => const DiceRoll());
     return Scaffold(
       appBar: AppBar(title: const Text("Dice")),
-      drawer: const NavBar(),
       body:  Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
