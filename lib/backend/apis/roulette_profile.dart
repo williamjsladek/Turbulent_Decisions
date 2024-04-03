@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:turb_desc/backend/apis/roulette_profiles.dart';
 
 class Profile {
   late String _title;
@@ -16,7 +13,7 @@ class Profile {
   }
 
   void setOptions(List<String> options) {
-    if (!options.isEmpty) {
+    if (options.isNotEmpty) {
       _options = options;
     }
     _options = [];

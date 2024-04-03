@@ -4,13 +4,13 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class RouletteTile extends StatelessWidget {
   final String optionName;
 
-  RouletteTile({super.key, required this.optionName});
+  const RouletteTile({super.key, required this.optionName});
 
   @override
   Widget build(BuildContext context) {
     return Slidable(
       endActionPane: ActionPane(
-        motion: StretchMotion(),
+        motion: const StretchMotion(),
         children: [
           SlidableAction(
             onPressed: ((context) {

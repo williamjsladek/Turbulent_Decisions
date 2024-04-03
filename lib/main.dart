@@ -3,7 +3,6 @@ import 'package:turb_desc/firebase_options.dart';
 import 'views/home/home.dart';
 import 'views/roulette/roulette.dart';
 import 'views/dice/dice.dart';
-import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {

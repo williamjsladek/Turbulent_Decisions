@@ -1,14 +1,13 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:turb_desc/components/dialog_boxes/roulette_alert.dart';
 
 import 'package:turb_desc/services/firestore.dart';
+import 'package:turb_desc/views/roulette/roulette_wheel.dart';
 
-import '../../backend/apis/roulette_profiles.dart';
 import '../../components/nav/nav_bar.dart';
 
 class Roulette extends StatefulWidget {
@@ -24,7 +23,7 @@ class _RouletteState extends State<Roulette> {
 
   // text controller
   late TextEditingController controller;
-  late List<String> _options = [];
+  late final List<String> _options = [];
   late String _title = '';
 
   static const IconData autoMode =
@@ -197,13 +196,21 @@ class _RouletteState extends State<Roulette> {
 
   void spin() {
     // select a random item from _options and display it to the user
-    int randomIndex = Random().nextInt(_options.length);
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) =>
-          RouletteAlert(alert: 'Selected:', text: _options[randomIndex]),
-    );
+    // int randomIndex = Random().nextInt(_options.length);
+    if (_options.length > 1) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Roulette_Wheel(options: _options))
+      );
+    } else {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) =>
+            const RouletteAlert(alert: 'Warning!:', text: "Please include more than one option"),
+      );
+    }
   }
 
   Future<String?> titleInput() => showDialog<String>(
@@ -244,7 +251,7 @@ class _RouletteState extends State<Roulette> {
       context: context,
       builder: (_) {
         return AlertDialog(
-          title: Text('List View'),
+          title: const Text('List View'),
           content: SizedBox(
             width: double.maxFinite,
             child: StreamBuilder<QuerySnapshot>(
@@ -269,9 +276,9 @@ class _RouletteState extends State<Roulette> {
                         onTap: () {
                           setState(() {
                             _options.clear();
-                            optionsList.forEach((element) {
+                            for (var element in optionsList) {
                               _options.add(element);
-                            });
+                            }
                           });
                         },
                       );
